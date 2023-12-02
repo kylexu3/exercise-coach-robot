@@ -1,0 +1,1864 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ChoregrapheProject xmlns="http://www.ald.softbankrobotics.com/schema/choregraphe/project.xsd" xar_version="3">
+  <Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0">
+    <bitmap>media/images/box/root.png</bitmap>
+    <script language="4">
+      <content>
+        <![CDATA[]]>
+      </content>
+    </script>
+    <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+    <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+    <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+    <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="指令盒行为结束时，送出信号。" id="4" />
+    <Timeline enable="0">
+      <BehaviorLayer name="behavior_layer1">
+        <BehaviorKeyframe name="keyframe1" index="1">
+          <Diagram>
+            <Box name="movement" id="1" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="573" y="216">
+              <bitmap>media/images/box/box-python-script.png</bitmap>
+              <script language="4">
+                <content>
+                  <![CDATA[from naoqi import ALProxy
+import time
+import qi
+import requests
+import threading
+def botharms_forward():
+#def feedback_positivo(ip_robot):
+    #from naoqi import ALProxy # SE DEBE IMPORTAR ESTO:
+
+    #leds = ALProxy("ALLeds","192.168.1.130",9559)
+    #print("la IP ingresada es:", ip_robot)
+    # CAMBIAR VALOR DE LA IP
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.off("AllLeds")
+
+    names = list()
+    times = list()
+    keys = list()
+
+    names.append("HeadPitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.17, -0.17, -0.17])
+
+    names.append("HeadYaw")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0, 0, 0])
+
+    names.append("LAnklePitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.0733724, 0.0733724, 0.0733724])
+
+    names.append("LAnkleRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.113483, -0.113483, -0.113483])
+
+    names.append("LElbowRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.505407, -0.505407, -0.505407])
+
+    names.append("LElbowYaw")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-1.2174, -1.2174, -1.2174])
+
+    names.append("LHand")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.27019, 0.27019, 0.27019])
+
+    names.append("LHipPitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.168429, 0.168429, 0.168429])
+
+    names.append("LHipRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.122589, 0.122589, 0.122589])
+
+    names.append("LHipYawPitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.159941, -0.159941, -0.159941])
+
+    names.append("LKneePitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.0906351, -0.0906351, -0.0906351])
+
+    names.append("LShoulderPitch")
+    times.append([3.16, 5.96, 7.76, 9.52, 11.28, 12.8])
+    keys.append([-0.872665, 1.48422, -0.872665, 1.48422, -0.872665, 1.48422])
+
+    names.append("LShoulderRoll")
+    times.append([3.16, 5.96, 9.52, 12.8])
+    keys.append([0.191986, 0.201915, 0.201915, 0.201915])
+
+    names.append("LWristYaw")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.105863, 0.105863, 0.105863])
+
+    names.append("RAnklePitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.0773586, 0.0773586, 0.0773586])
+
+    names.append("RAnkleRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.0767987, 0.0767987, 0.0767987])
+
+    names.append("RElbowRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.44793, 0.44793, 0.44793])
+
+    names.append("RElbowYaw")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([1.25906, 1.25906, 1.25906])
+
+    names.append("RHand")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.310403, 0.310403, 0.310403])
+
+    names.append("RHipPitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.16018, 0.16018, 0.16018])
+
+    names.append("RHipRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.0778176, -0.0778176, -0.0778176])
+
+    names.append("RHipYawPitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.159941, -0.159941, -0.159941])
+
+    names.append("RKneePitch")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.0822982, -0.0822982, -0.0822982])
+
+    names.append("RShoulderPitch")
+    times.append([3.16, 5.96, 7.76, 9.52, 11.28, 12.8])
+    keys.append([-0.872665, 1.45715, -0.872665, 1.45715, -0.872665, 1.45715])
+
+    names.append("RShoulderRoll")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([-0.179022, -0.179022, -0.179022])
+
+    names.append("RWristYaw")
+    times.append([5.96, 9.52, 12.8])
+    keys.append([0.13037, 0.13037, 0.13037])
+
+    leds.on("AllLedsGreen")
+
+    try:
+      # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+      motion = ALProxy("ALMotion", "192.168.1.130", 9559)
+      #motion = ALProxy("ALMotion")
+      motion.angleInterpolation(names, keys, times, True)
+    except BaseException, err:
+      print err
+
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.on("AllLedsGreen")
+    #leds.off()
+
+def lateralqnees():
+#def feedback_positivo(ip_robot):
+    #from naoqi import ALProxy # SE DEBE IMPORTAR ESTO:
+
+    #leds = ALProxy("ALLeds","192.168.1.130",9559)
+    #print("la IP ingresada es:", ip_robot)
+    # CAMBIAR VALOR DE LA IP
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.off("AllLeds")
+
+    names = list()
+    times = list()
+    keys = list()
+
+    names.append("HeadPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.151908, -0.14884, -0.158044, -0.158044, -0.158044])
+
+    names.append("HeadYaw")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.00302602, -0.00771189, -0.00771189, -0.00771189, -0.00771189])
+
+    names.append("LAnklePitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.091998, 0.091998, 0.0858622, 0.0858622, 0.0843279])
+
+    names.append("LAnkleRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.110406, -0.118076, -0.110406, -0.110406, -0.116542])
+
+    names.append("LElbowRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.406468, -0.397265, -0.383458, -1.02774, -0.516916])
+
+    names.append("LElbowYaw")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-1.18122, -1.18122, -1.19656, 0.00609397, -1.14287])
+
+    names.append("LHand")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.288, 0.2928, 0.2868, 0.2868, 0.2868])
+
+    names.append("LHipPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.12583, 0.12583, 0.124296, 0.124296, 0.122762])
+
+    names.append("LHipRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.12583, 0.122762, 0.12583, 0.12583, 0.122762])
+
+    names.append("LHipYawPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.177901, -0.171766, -0.176367, -0.176367, -0.171766])
+
+    names.append("LKneePitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.0966839, -0.0923279, -0.090548, -0.090548, -0.0951499])
+
+    names.append("LShoulderPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([1.46953, 1.44192, 0.18097, 0.101202, 1.54009])
+
+    names.append("LShoulderRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.184038, 0.194775, -0.039926, -0.144238, 0.239262])
+
+    names.append("LWristYaw")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.0797259, 0.078192, 0.0904641, 0.0904641, 0.0966001])
+
+    names.append("RAnklePitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.0890141, 0.0859461, 0.092082, 0.092082, 0.0890141])
+
+    names.append("RAnkleRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.11049, 0.119694, 0.11816, 0.11816, 0.119694])
+
+    names.append("RElbowRoll")
+    times.append([1, 2.32, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.391212, 1.54462, 0.377407, 0.38661, 0.38661, 0.385075])
+
+    names.append("RElbowYaw")
+    times.append([1, 2.32, 3.68, 5.04, 6.64, 7.76])
+    keys.append([1.19341, 0.174533, 1.18574, 1.19648, 1.19648, 1.19341])
+
+    names.append("RHand")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.2884, 0.2848, 0.2984, 0.2984, 0.2952])
+
+    names.append("RHipPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.130348, 0.130348, 0.12728, 0.12728, 0.130348])
+
+    names.append("RHipRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.12728, -0.12728, -0.121144, -0.121144, -0.128814])
+
+    names.append("RHipYawPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.177901, -0.171766, -0.176367, -0.176367, -0.171766])
+
+    names.append("RKneePitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.095066, -0.091998, -0.0873961, -0.0873961, -0.095066])
+
+    names.append("RShoulderPitch")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.092082, 1.36223, 1.5187, 1.5187, 1.52177])
+
+    names.append("RShoulderRoll")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([-0.0598679, -0.17185, -0.208666, -0.208666, -0.228608])
+
+    names.append("RWristYaw")
+    times.append([1, 3.68, 5.04, 6.64, 7.76])
+    keys.append([0.0889301, 0.105804, 0.107338, 0.107338, 0.110406])
+
+    leds.on("AllLedsBlue")
+
+    try:
+      # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+      motion = ALProxy("ALMotion", "192.168.1.130", 9559)
+      #motion = ALProxy("ALMotion")
+      motion.angleInterpolation(names, keys, times, True)
+    except BaseException, err:
+      print err
+
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.on("AllLedsBlue")
+    #leds.off()
+
+def stepup():
+#def feedback_positivo(ip_robot):
+    #from naoqi import ALProxy # SE DEBE IMPORTAR ESTO:
+
+    #leds = ALProxy("ALLeds","192.168.1.130",9559)
+    #print("la IP ingresada es:", ip_robot)
+    # CAMBIAR VALOR DE LA IP
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.off("AllLeds")
+
+
+    names = list()
+    times = list()
+    keys = list()
+
+    names.append("HeadPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.14884, -0.14884, -0.14884, -0.14884])
+
+    names.append("HeadYaw")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.00464392, -0.00771189, -0.00464392, -0.00771189])
+
+    names.append("LAnklePitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.0873961, 0.091998, 0.0873961, 0.091998])
+
+    names.append("LAnkleRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.113474, -0.118076, -0.113474, -0.118076])
+
+    names.append("LElbowRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-1.48353, -0.397265, -1.48353, -0.397265])
+
+    names.append("LElbowYaw")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.122173, -1.18122, -0.122173, -1.18122])
+
+    names.append("LHand")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.2896, 0.2928, 0.2896, 0.2928])
+
+    names.append("LHipPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.12583, 0.12583, 0.12583, 0.12583])
+
+    names.append("LHipRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.119694, 0.122762, 0.119694, 0.122762])
+
+    names.append("LHipYawPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.170232, -0.171766, -0.170232, -0.171766])
+
+    names.append("LKneePitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.0966839, -0.0923279, -0.0966839, -0.0923279])
+
+    names.append("LShoulderPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0, 1.44192, 0, 1.44192])
+
+    names.append("LShoulderRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.610865, 0.194775, 0.610865, 0.194775])
+
+    names.append("LWristYaw")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.0996681, 0.078192, 0.0996681, 0.078192])
+
+    names.append("RAnklePitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.0874801, 0.0859461, 0.0874801, 0.0859461])
+
+    names.append("RAnkleRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.115092, 0.119694, 0.115092, 0.119694])
+
+    names.append("RElbowRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([1.48353, 0.377407, 1.48353, 0.377407])
+
+    names.append("RElbowYaw")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.122173, 1.18574, 0.122173, 1.18574])
+
+    names.append("RHand")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.2888, 0.2848, 0.2888, 0.2848])
+
+    names.append("RHipPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.131882, 0.130348, 0.131882, 0.130348])
+
+    names.append("RHipRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.12728, -0.12728, -0.12728, -0.12728])
+
+    names.append("RHipYawPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.170232, -0.171766, -0.170232, -0.171766])
+
+    names.append("RKneePitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.0889301, -0.091998, -0.0889301, -0.091998])
+
+    names.append("RShoulderPitch")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.0813439, 1.36223, 0.0813439, 1.36223])
+
+    names.append("RShoulderRoll")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([-0.668866, -0.17185, -0.668866, -0.17185])
+
+    names.append("RWristYaw")
+    times.append([2.16, 4.16, 6.16, 8.04])
+    keys.append([0.0981341, 0.105804, 0.0981341, 0.105804])
+
+    leds.on("AllLedsBlue")
+
+    try:
+      # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+      motion = ALProxy("ALMotion", "192.168.1.130", 9559)
+      #motion = ALProxy("ALMotion")
+      motion.angleInterpolation(names, keys, times, True)
+    except BaseException, err:
+      print err
+
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.on("AllLedsBlue")
+    #leds.off()
+
+    leds.on("AllLedsBlue")
+
+def basicmarching():
+#def feedback_positivo(ip_robot):
+    #from naoqi import ALProxy # SE DEBE IMPORTAR ESTO:
+
+    #leds = ALProxy("ALLeds","192.168.1.130",9559)
+    #print("la IP ingresada es:", ip_robot)
+    # CAMBIAR VALOR DE LA IP
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.off("AllLeds")
+
+
+    names = list()
+    times = list()
+    keys = list()
+
+    names.append("HeadPitch")
+    times.append([1.56, 4.76])
+    keys.append([-0.144238, -0.144238])
+
+    names.append("HeadYaw")
+    times.append([1.56, 4.76])
+    keys.append([-0.00771189, -0.00771189])
+
+    names.append("LAnklePitch")
+    times.append([1.56, 4.76])
+    keys.append([0.0889301, 0.0889301])
+
+    names.append("LAnkleRoll")
+    times.append([1.56, 4.76])
+    keys.append([-0.113474, -0.113474])
+
+    names.append("LElbowRoll")
+    times.append([1.56, 4.76])
+    keys.append([-0.408002, -0.377323])
+
+    names.append("LElbowYaw")
+    times.append([1.56, 4.76])
+    keys.append([-1.2073, -1.2073])
+
+    names.append("LHand")
+    times.append([1.56, 4.76])
+    keys.append([0.2916, 0.2916])
+
+    names.append("LHipPitch")
+    times.append([1.56, 4.76])
+    keys.append([0.128898, 0.128898])
+
+    names.append("LHipRoll")
+    times.append([1.56, 4.76])
+    keys.append([0.122762, 0.122762])
+
+    names.append("LHipYawPitch")
+    times.append([1.56, 4.76])
+    keys.append([-0.168698, -0.168698])
+
+    names.append("LKneePitch")
+    times.append([1.56, 4.76])
+    keys.append([-0.093616, -0.093616])
+
+    names.append("LShoulderPitch")
+    times.append([1.56, 3.16, 4.76, 5.96])
+    keys.append([1.5708, 1.22173, 0, 1.5708])
+
+    names.append("LShoulderRoll")
+    times.append([1.56, 3.16, 4.76, 5.96])
+    keys.append([0.226991, 0.139626, 0.139626, 0.174533])
+
+    names.append("LWristYaw")
+    times.append([1.56, 4.76])
+    keys.append([0.11194, 0.11194])
+
+    names.append("RAnklePitch")
+    times.append([1.56, 4.76])
+    keys.append([0.0890141, 0.0890141])
+
+    names.append("RAnkleRoll")
+    times.append([1.56, 4.76])
+    keys.append([0.115092, 0.115092])
+
+    names.append("RElbowRoll")
+    times.append([1.56, 4.76])
+    keys.append([0.389678, 0.377407])
+
+    names.append("RElbowYaw")
+    times.append([1.56, 4.76])
+    keys.append([1.18881, 1.18881])
+
+    names.append("RHand")
+    times.append([1.56, 4.76])
+    keys.append([0.2916, 0.2916])
+
+    names.append("RHipPitch")
+    times.append([1.56, 4.76])
+    keys.append([0.130348, 0.130348])
+
+    names.append("RHipRoll")
+    times.append([1.56, 4.76])
+    keys.append([-0.122678, -0.122678])
+
+    names.append("RHipYawPitch")
+    times.append([1.56, 4.76])
+    keys.append([-0.168698, -0.168698])
+
+    names.append("RKneePitch")
+    times.append([1.56, 4.76])
+    keys.append([-0.091998, -0.091998])
+
+    names.append("RShoulderPitch")
+    times.append([1.56, 3.16, 4.76])
+    keys.append([0, 1.5708, 1.5708])
+
+    names.append("RShoulderRoll")
+    times.append([1.56, 3.16, 4.76])
+    keys.append([-0.174533, -0.174533, -0.181053])
+
+    names.append("RWristYaw")
+    times.append([1.56, 4.76])
+    keys.append([0.0904641, 0.0904641])
+
+    try:
+      # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+      motion = ALProxy("ALMotion", "192.168.1.130", 9559)
+      #motion = ALProxy("ALMotion")
+      motion.angleInterpolation(names, keys, times, True)
+    except BaseException, err:
+      print err
+
+    leds = ALProxy("ALLeds","192.168.1.130",9559)
+    leds.on("AllLedsBlue")
+    #leds.off()
+
+    leds.on("AllLedsBlue")
+
+def bloque_bm():
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 10:
+        basicmarching()
+        t1=time.time()
+
+def bloque_su():
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 5:
+        stepup()
+        t1=time.time()
+        if stop_flag:
+          break
+    tts.say("Can you do the exercise with me?")
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 10:
+        stepup()
+        t1=time.time()
+        if stop_flag:
+          break
+
+def bloque_lk():
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 10:
+        lateralqnees()
+        t1=time.time()
+        if stop_flag:
+          break
+    tts.say("Can you do the exercise with me?")
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 10:
+        lateralqnees()
+        t1=time.time()
+        if stop_flag:
+          break
+def bloque_baf():
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 10:
+        botharms_forward()
+        t1=time.time()
+        if stop_flag:
+          break
+    tts.say("Can you do the exercise with me?")
+    t0=time.time()
+    t1=time.time()
+    while t1-t0 < 10:
+        botharms_forward()
+        t1=time.time()
+        if stop_flag:
+          break
+
+#FASE CALENTAMIENTO
+def f_calentamiento():
+    bloque_bm()
+    bloque_bm()
+
+    bloque_su()
+    bloque_su()
+def f_calentamiento():
+    bloque_bm()
+
+
+def read_message():
+    # Read the message from the online source
+    response = requests.get(message_url)
+    message = response.text.strip()
+    return message
+def read_movement():
+    # Read the movement from the online source
+    response = requests.get(movement_url)
+    movement = response.text.strip()
+    return movement
+
+def send_demand(demand):
+    data = {'demand': demand}
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(demand_url, json=data, headers=headers)
+
+def read_counting():
+    # Read the movement from the online source
+    response = requests.get(counting_url)
+    counting = response.text.strip()
+    return counting
+def send_play_signal():
+    url = 'http://192.168.1.134:5000/signal'
+    try:
+        data = {'signal': 'play'}  # Set the signal to 'play'
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            print('Play signal sent successfully')
+        else:
+            print('Failed to send play signal')
+    except requests.RequestException as e:
+        print('Error occurred:', str(e))
+def monitorbf():
+    #global start_time
+    global stop_flag
+
+
+    counts=0
+    tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+    tts.say("Now lets learn the key of this movement slowly. First of all, lift your arms to the highest position where you think they should be")
+    tts.say("and hold this posture for me to check.")
+    demand = 'Prebf'
+    send_demand(demand)
+    time.sleep(2)
+    while True:
+        try:
+            #counting=int(read_counting())
+            movement = read_movement()
+            if stop_flag:
+                break
+            elif counts >=4:
+                if counts == 4:
+                    demand = "Decent"
+                    send_demand(demand)
+                    tts.say("That's great. Don't worry if you didn't get it, I will help you in the exercise.")
+                    tts.say(" Keep moving at your own pace! I'm counting now.")
+                    counts = 0
+                    break
+                elif counts == 5:
+                    tts.say("Now you got it. Keep moving at your own pace! I'm counting now.")
+                    counts = 0
+                    break
+
+            elif movement == "Upcorrect" or counts ==2:
+                if counts == 2 and movement != "Upcorrect":
+                    tts.say ("Very close. Now you can put down your arms back close to the torso.")
+                    tts.say("and hold this posture for me to check.")
+                    time.sleep(2)
+                    while True:
+                        movement = read_movement()
+                        if movement == "Downcorrect":
+                            tts.say("Perfect! Please remember always put your arms back to the torso after lifting them")
+
+                            counts = 5
+                            break
+                        elif movement == "Downstretch":
+                            tts.say("Please keep your arms stretched when putting back them to the torso")
+                            counts += 1
+                        elif counts == 4:
+                            break
+                        else:
+                            tts.say("Please put your arms back to your torso.")
+                            counts += 1
+                        time.sleep(2)
+                elif (movement == "Upcorrect" and counts < 2) or (movement == "Upcorrect" and counts == 2) :
+                    tts.say("Great! Please remember that is the right posture.")
+                    tts.say("Now, you can put down your arms back close to the torso.")
+                    tts.say("and hold this posture for me to check.")
+                    time.sleep(2)
+                    while True:
+                        movement = read_movement()
+                        if movement == "Downcorrect":
+                            tts.say("Perfect! Please remember always put your arms back to the torso after lifting them")
+
+                            counts = 5
+                            break
+                        elif movement == "Downstretch":
+                            tts.say("Please keep your arms stretched when putting back them to the torso")
+                            counts += 1
+                        elif counts == 4:
+                            break
+                        else:
+                            tts.say("Please put your arms back to your torso.")
+                            counts += 1
+                        time.sleep(2)
+            elif movement != "Upcorrect" and movement !="Upcorrectd" and movement != "Upfold":
+                tts.say("Please lift your arms higher to make them paralleled to the ground")
+                counts += 1
+            elif movement == "Upcorrectd":
+                tts.say("Good, but please put down your arms a bit to make them paralleled to the ground.")
+                counts += 1
+            elif movement == "Upfold":
+                tts.say("Please make sure to close your elbows joints to make the forearms close to the upper arms.")
+                counts += 1
+            time.sleep(2)
+        except requests.exceptions.RequestException:
+            # Error occurred while fetching the message, wait for the next iteration
+            time.sleep(1)
+def monitorsf():
+    #global start_time
+    global stop_flag
+
+
+    counts=0
+    tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+    tts.say("Now lets learn the key of this movement slowly. First of all, lift one of your arm to the highest position where you think it should be")
+    tts.say("and hold this posture for me to check.")
+    demand = 'Presf'
+    send_demand(demand)
+    time.sleep(2)
+    while True:
+        try:
+            #counting=int(read_counting())
+            movement = read_movement()
+            if stop_flag:
+                break
+            elif counts >=4:
+                if counts == 4:
+                    demand = "Decent1"
+                    send_demand(demand)
+                    tts.say("That's great. Don't worry if you didn't get it, I will help you in the exercise.")
+                    tts.say(" Keep moving at your own pace! I'm counting now.")
+                    counts = 0
+                    break
+                elif counts == 5:
+                    tts.say("Now you got it. Keep moving at your own pace! I'm counting now.")
+                    counts = 0
+                    break
+
+            elif (movement == "Upcorrectl" or movement == "Upcorrectr") or counts == 2:
+                if (counts <2 and (movement == "Upcorrectl" or movement == "Upcorrectr")) or ((movement == "Upcorrectl" or movement == "Upcorrectr") and counts == 2):
+                    tts.say("Great! Please remember that is the right posture.")
+                    tts.say("Now, you can put down your arm to the torso.")
+                    tts.say("and hold this posture for me to check.")
+                    time.sleep(2)
+                    while True:
+                            movement = read_movement()
+                            if movement == "Downcorrectl" or movement == "Downcorrectr":
+                                tts.say("Perfect! Please remember always put your arm back to the torso after lifting it.")
+                                tts.say("And the movement is the same for the another arm. We don't have to check it again")
+                                counts = 5
+                                break
+                            elif movement == "Downstretchl" or movement == "Downstretchr":
+                                tts.say("Please keep your arm stretched when putting back it to the torso")
+                            elif counts == 4:
+                                break
+                            else:
+                                tts.say("Please put your arm back to your torso.")
+                            time.sleep(2)
+                elif counts == 2 and movement != "Upcorrectl" and movement != "Upcorrectr":
+                    tts.say ("Very close. Now you can put down your arms to the torso.")
+                    tts.say("and hold this posture for me to check.")
+                    time.sleep(2)
+                    while True:
+                        movement = read_movement()
+                        if movement == "Downcorrectl" or movement == "Downcorrectr":
+                            tts.say("Perfect! Please remember always put your arm back to the torso after lifting it.")
+                            tts.say("And the movement is the same for the another arm. We don't have to check it again")
+                            counts = 5
+                            break
+                        elif movement == "Downstretchl" or movement == "Downstretchr":
+                            tts.say("Please keep your arm stretched when putting back it to the torso")
+                            counts += 1
+                        elif counts == 4:
+                            break
+                        else:
+                            tts.say("Please put your arm back to your torso.")
+                            counts += 1
+                        time.sleep(2)
+            elif movement != "Upcorrectl" and movement !="Upcorrectdl" and movement != "Upfoldl" and movement != "Upcorrectr" and movement !="Upcorrectdr" and movement != "Upfoldr":
+                tts.say("Please lift your arms higher to make them paralleled to the ground")
+                counts +=1
+            elif movement == "Upcorrectdl" or movement == "Upcorrectdr":
+                tts.say("Good, but please put down your arm a bit to make it paralleled to the ground.")
+                counts +=1
+            elif movement == "Upfoldl" or movement == "Upfoldr":
+                tts.say("Please make sure to close your elbow joint to make the forearm close to the upper arm.")
+                counts += 1
+            time.sleep(2)
+        except requests.exceptions.RequestException:
+            # Error occurred while fetching the message, wait for the next iteration
+            time.sleep(1)
+def monitorba():
+    #global start_time
+    global stop_flag
+
+
+    counts=0
+    tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+    tts.say("Now lets learn the key of this movement slowly. First of all, lift your arms to the highest position where you think they should be")
+    tts.say("and hold this posture for me to check.")
+    demand = 'Preba'
+    send_demand(demand)
+    time.sleep(2)
+    while True:
+        try:
+            #counting=int(read_counting())
+            movement = read_movement()
+            if stop_flag:
+                break
+            elif counts >=4:
+                if counts == 4:
+                    tts.say("That's great. Don't worry if you didn't get it, I will help you in the exercise.")
+                    tts.say(" Keep moving at your own pace! I'm counting now.")
+                    counts = 0
+                    break
+                elif counts == 5:
+                    tts.say("Now you got it. Keep moving at your own pace! I'm counting now.")
+                    counts = 0
+                    break
+
+            elif movement == "Upcorrect" or counts ==2:
+                if counts == 2 and movement != "Upcorrect":
+                    tts.say ("Very close. Now you can put down your arms back close to the torso.")
+                    tts.say("and hold this posture for me to check.")
+                    time.sleep(2)
+                    while True:
+                        movement = read_movement()
+                        if movement == "Downcorrect":
+                            tts.say("Perfect! Please remember always put your arms back to the torso after lifting them")
+
+                            counts = 5
+                            break
+                        elif movement == "Downstretch":
+                            tts.say("Please keep your arms stretched when putting back them to the torso")
+                            counts += 1
+                        elif counts == 4:
+                            break
+                        else:
+                            tts.say("Please put your arms back to your torso.")
+                            counts += 1
+                        time.sleep(2)
+                elif (movement == "Upcorrect" and counts < 2) or (movement == "Upcorrect" and counts ==2) :
+                    tts.say("Great! Please remember that is the right posture.")
+                    tts.say("Now, you can put down your arms back close to the torso.")
+                    tts.say("and hold this posture for me to check.")
+                    time.sleep(2)
+                    while True:
+                        movement = read_movement()
+                        if movement == "Downcorrect":
+                            tts.say("Perfect! Please remember always put your arms back to the torso after lifting them")
+
+                            counts = 5
+                            break
+                        elif movement == "Downstretch":
+                            tts.say("Please keep your arms stretched when putting back them to the torso")
+                            counts += 1
+                        elif counts == 4:
+                            break
+                        else:
+                            tts.say("Please put your arms back to your torso.")
+                            counts += 1
+                        time.sleep(2)
+            elif movement != "Upcorrect" and movement != "Upstretch":
+                counts += 1
+                tts.say("Please lift your arms higher to make them perpendicular to the ground")
+
+            elif movement == "Upstretch":
+                counts += 1
+                tts.say("Please make sure to keep your arms stretched all the time.")
+            time.sleep(2)
+        except requests.exceptions.RequestException:
+            # Error occurred while fetching the message, wait for the next iteration
+            time.sleep(1)
+def monitorh():
+    global start_time
+    global stop_flag
+    global wait_flag
+    global start_state
+    global timer
+    global timers
+    global current_state
+    global end_time
+    start_time = time.time()
+    end_time = time.time()
+    timers =1
+    timer = 1
+    duration = 40
+    time_count = 120
+    if current_state == 'Activatesf':
+        duration = 25
+    else:
+        duration = 40
+    wait = 0
+    wait1 = 0
+    tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+    global count
+    global waiting_for_go
+    global counting
+    while end_time-start_time<=time_count:
+        try:
+            # Read the message
+            counting=int(read_counting())
+            message = read_message()
+            movement = read_movement()
+            #wait_flag = False
+            #speech_reco()
+            # Check the message
+            while waiting_for_go:
+                if stop_flag:
+                    break
+                pass
+            #if counting >= duration:
+                #break
+            if stop_flag:
+                break
+            elif (end_time-start_time>=(time_count-10) and timers==2) or (end_time-start_time>= time_count//2 and timers ==1):
+                if end_time- start_time >= time_count//2 and end_time-start_time<(time_count-10) and timers==1:
+                  tts.say("Time passed more than half! Keep going!")
+                  wait_flag =True
+                  timers+= 1
+                elif end_time - start_time>=(time_count-10) and timers==2:
+                  tts.say("Hold on!Only 10 seconds left!")
+                  wait_flag =True
+                  timers+= 1
+
+            elif (counting>= 30 and timer==3) or (counting>= 20 and timer ==2) or (counting>=10 and timer==1):
+                if counting >= 10 and timer ==1:
+                  tts.say(" Great job! You have done 10 movements!")
+                  wait_flag =True
+                  timer+= 1
+                elif counting>=20 and timer==2:
+                  tts.say("Excellent!You have done 20 movements!")
+                  wait_flag =True
+                  timer+= 1
+                  #wait_flag = True
+                elif counting >= 30 and timer ==3:
+                  tts.say("Amazing!You have done 30 movements!")
+                  wait_flag =True
+                  timer+= 1
+
+                  #wait_flag = True
+            elif message == 'Slow down':
+                wait+=1
+                if wait ==1:
+                    message1 = ("Your heart rate is too high, please slow down your movement and breathe evenly")  # Say the message
+                    send_speech(message1)
+                    start_state = False
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsRed")
+                elif wait == 3:
+                    message2=("Your heart rate is still high, you can ask me to stop or pause and have a rest first.")
+                    send_speech(message2)
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsRed")
+                elif wait == 6:
+                    message3=("Your heart rate is keeping at a high level for too long. I will stop the session for you. Please have a rest and ask for medical help if you feel uncomfortable")
+                    send_speech(message3)
+                    stop_flag = True
+            elif message == "Speed up":
+                wait1 +=1
+                if wait1 ==3:
+                    message4=("You are doing great! Now you can speed up your movement to achieve better training effect")
+                    send_speech(message4)
+                    wait_flag =True
+                    start_state = False
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsBlue")
+                elif wait1 >= 6:
+                    message5=("Please speed up more! I know you can do better!")
+                    send_speech(message5)
+                    wait_flag = True
+                    wait1 = 0
+                elif movement == "Right movement":
+                    count+=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                    if count == 1:
+                      message6=("Well done! You are doing the right movement!")
+                      send_speech(message6)
+                      start_state= False
+                    elif count == 2:
+                      message7=("Great job! Keep going!")
+                      send_speech(message7)
+                      start_state= False
+                    elif count == 3:
+                      message8=("You are doing amazing!")
+                      send_speech(message8)
+                      start_state= False
+                    elif count == 4:
+                      message9=("Excellent! You like a duck to water!")
+                      send_speech(message9)
+                      start_state= False
+                      count = 0
+                elif movement == "Downl":
+                    message10=("Your left arm is raised too high when you reach the highest point, please put down a bit to make sure it is paralleled to the ground")
+                    send_speech(message10)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Notboth":
+                    message46=("Please don't lift your both arms. Make sure one arm is staying still!")
+                    send_speech(message46)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Raisel":
+                    message11=("When you are going to lift your left arm to the highest point, please raise your left arm a bit to make sure it is paralleled to the ground.")
+                    send_speech(message11)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Downr":
+                    message12=("Your right arm is raised too high when you reach the highest point, please put down a bit to make sure it is paralleled to the ground.")
+                    send_speech(message12)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Raiser":
+                    message13=("When you are going to lift your right arm to the highest point, please raise your right arm a bit to make sure it is paralleled to the ground.")
+                    send_speech(message13)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Backl":
+                    message14=("Your left arm needs putting back close to your torso after you lifting it.")
+                    send_speech(message14)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Backr" :
+                    message15=("Your right arm needs putting back close to your torso after you lifting it.")
+                    send_speech(message15)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Downb":
+                    message16=("When you reach the highest point, please don't raise your arms too high to make sure they are paralleled to the ground")
+                    send_speech(message16)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Raisebf":
+                    message17=("When you are going to lift your arms to the highest point, please raise your arms a bit to make sure they are paralleled to the ground.")
+                    send_speech(message17)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Foldb":
+                    message18=("As you lift your arms to the highest point, please close your elbows joint to make the forearms as close as possible to the upper arms.")
+                    send_speech(message18)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Backb":
+                    message19=("Your arms needs putting back close to your torso after you lifting them.")
+                    send_speech(message19)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Raiseb" :
+                    message20=("When you are going to lift your arms to the highest point, please raise your arms a bit higher to make sure they are perpendicular to the ground.")
+                    send_speech(message20)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Extend" :
+                    message21=("Please keep your arms extended as possible when you are doing this movement.")
+                    send_speech(message21)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Foldl":
+                    message22=("As you lift your left arm to the highest point, please close your elbow joint to make the forearm as close as possible to the upper arm")
+                    send_speech(message22)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Raiself":
+                    message23=("When you are going to lift your left arm to the highest point, please raise your arms a bit to make sure it is paralleled to the ground.")
+                    send_speech(message23)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Foldr":
+                    message24=("As you lift your right arm to the highest point, please close your elbow joint to make the forearm as close as possible to the upper arm.")
+                    send_speech(message24)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+                elif movement == "Raiserf":
+                    message25=("When you are going to lift your right arm to the highest point, please raise your right arm a bit to make sure it is paralleled to the ground.")
+                    send_speech(message25)
+                    start_state= False
+                    if count >0:
+                        count-=1
+                    leds = ALProxy("ALLeds","192.168.1.130",9559)
+                    leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Right movement":
+                count+=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+                if count == 1:
+                  message26=("Well done! You are doing the right movement!")
+                  send_speech(message26)
+                  start_state= False
+                elif count == 2:
+                  message27=("Great job! Keep going!")
+                  send_speech(message27)
+                  start_state= False
+
+                elif count == 3:
+                  message28=("You are doing amazing!")
+                  send_speech(message28)
+                  start_state= False
+
+                elif count == 4:
+                  message29=("Excellent! You like a duck to water!")
+                  send_speech(message29)
+                  start_state= False
+
+                  count = 0
+            elif message == "Normal" and movement == "Downl":
+                message30=("Your left arm is raised too high when you reach the highest point, please put down a bit to make sure it is paralleled to the ground")
+                send_speech(message30)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Raiself":
+                message31=("When you are going to lift your left arm to the highest point, please raise your left arm a bit to make sure it is paralleled to the ground.")
+                send_speech(message31)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Downr":
+                message32=("Your right arm is raised too high when you reach the highest point, please put down a bit to make sure it is paralleled to the ground.")
+                send_speech(message32)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Raiserf":
+                message33=("When you are going to lift your right arm to the highest point, please raise your right arm a bit to make sure it is paralleled to the ground.")
+                send_speech(message33)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Backl":
+                message34=("Your left arm needs putting back close to your torso after you lifting it.")
+                send_speech(message34)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Backr" :
+                message35=("Your right arm needs putting back close to your torso after you lifting it.")
+                send_speech(message35)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Downb":
+                message36=("When you reach the highest point, please don't raise your arms too high to make sure they are paralleled to the ground")
+                send_speech(message36)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Raisebf":
+                message37=("When you are going to lift your arms to the highest point, please raise your arms a bit to make sure they are paralleled to the ground.")
+                send_speech(message37)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Foldb":
+                message38=("As you lift your arms to the highest point, please close your elbows joint to make the forearms as close as possible to the upper arms.")
+                send_speech(message38)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Backb":
+                message39=("Your arms needs putting back close to your torso after you lifting them.")
+                send_speech(message39)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Raiseb" :
+                message40=("When you are going to lift your arms to the highest point, please raise your arms a bit higher to make sure they are perpendicular to the ground.")
+                send_speech(message40)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Extend" :
+                message41=("Please keep your arms extended as possible when you are doing this movement.")
+                send_speech(message41)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Foldl":
+                message42=("As you lift your left arm to the highest point, please close your elbow joint to make the forearm as close as possible to the upper arm")
+                send_speech(message42)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Raiself":
+                message43=("When you are going to lift your left arm to the highest point, please raise your arms a bit to make sure it is paralleled to the ground.")
+                send_speech(message43)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Foldr":
+                message44=("As you lift your right arm to the highest point, please close your elbow joint to make the forearm as close as possible to the upper arm.")
+                send_speech(message44)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            elif message == "Normal" and movement == "Raiserf":
+                message45=("When you are going to lift your right arm to the highest point, please raise your right arm a bit to make sure it is paralleled to the ground.")
+                send_speech(message45)
+                start_state= False
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+
+            elif movement == "Notboth":
+                message47=("Please don't lift your both arms. Make sure one arm is staying still while lifting another one!")
+                send_speech(message47)
+                start_state= False
+
+                if count >0:
+                    count-=1
+                leds = ALProxy("ALLeds","192.168.1.130",9559)
+                leds.on("AllLedsGreen")
+            wait_for_loop()
+
+        except requests.exceptions.RequestException:
+            # Error occurred while fetching the message, wait for the next iteration
+            time.sleep(1)
+        end_time = time.time()
+# Call the main function
+def wait_for_loop():
+    global wait_flag
+    global counting
+    global timer
+    global stop_flag
+    global current_state
+    global start_time
+    global end_time
+    global timers
+    number = 40
+    start_time1 = time.time()
+    end_time1 = time.time()
+    durations = 120
+    if current_state == 'Activatesf':
+        number = 25
+    else:
+        number = 40
+    #counting = int(read_counting())
+    if wait_flag or start_state:
+        time.sleep(1)
+        wait_flag = False
+    else:
+        while end_time1-start_time1<=10:
+            end_time1 = time.time()
+            counting = int(read_counting())
+            if end_time - start_time >= durations or (counting >= 30 and timer ==3) or (counting >=20 and timer == 2) or (counting >=10 and timer ==1) or stop_flag or (end_time-start_time>=(durations-10) and timers==2) or (end_time-start_time>= durations//2 and timers ==1):
+                break
+
+def main(fase):
+    global count
+    global stop_flag
+    global current_state
+#    if(fase==1):
+#        tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+#        tts.say("Now lets do the warm-up to get ready for the exercises! I will illustrate the movement first.")
+#        bloque_bm()
+#        tts.say("It's your turn to do the movement! Do you get it? Don't worry if you don't, I will assist you to compelete the movement ")
+#        tts.say("3")
+#        tts.say("2")
+#        tts.say("1")
+ #       tts.say("Go!")
+#        count = 0
+#        demand= 'Activatebm'
+#        send_demand(demand)
+#        monitorh()
+#        demand= 'Deactivatebm'
+#        send_demand(demand)
+#        time.sleep(1)
+#        counting=read_counting()
+#
+#        tts.say("Congratulations!! You did")
+
+# Set the speech speed for the number part
+#        tts.setParameter("speed", 70)  # Adjust the speed as desired, here it's set to 60%
+
+# Say the number part with adjusted speed
+#        tts.say("{} movements".format(counting))
+
+# Reset the speech speed to normal
+#        tts.setParameter("speed", 100)
+
+# Say the remaining part
+#       tts.say("in the basic marching")
+#        demand= 'Clear'
+#        send_demand(demand)
+
+    if(fase==1) and not stop_flag:
+        tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+
+        demand= 'Start'
+        send_demand(demand)
+        demand= 'Clear'
+        send_demand(demand)
+        tts.say("Hi!I am NAO, your fitness coach to help with your daily exercise. Hope we will have a good time together.")
+        tts.say("For today's exercise, we will have an around 10 minutes session to do three different movements which I will illustrate later.")
+        tts.say("Each movement will take")
+        tts.setParameter("speed", 70)
+        tts.say ("120 seconds")
+        tts.setParameter("speed", 90)
+        tts.say(" and have")
+        tts.setParameter("speed", 70)
+        tts.say ("30 seconds break")
+        tts.setParameter("speed", 90)
+        tts.say("Please remember that you can always ask me to")
+        tts.setParameter("speed", 70)
+        tts.say("stop")
+        tts.say("or")
+        tts.say("pause")
+        tts.setParameter("speed", 90)
+        tts.say(" when you feel uncomfortable or have some urgent stuff to do during the exercise.")
+        tts.say("And if you asked me to pause, just say")
+        tts.setParameter("speed", 70)
+        tts.say("continue")
+        tts.setParameter("speed", 90)
+        tts.say("whenever you are ready.")
+        tts.say("Please remember that if you want to say something, come closer to my face and say it loud and clear.")
+        tts.say("Before the session starts, please move and check if you are in the center of the screen while facing the camera.")
+        demand= 'Start'
+        send_demand(demand)
+        time.sleep(5)
+        tts.say("Now lets do the the exercises! I will illustrate the first movement which is called both folding arms forward.")
+        bloque_su()
+
+        start_bfdemo()
+
+        #tts.say("3")
+        #tts.say("2")
+        #tts.say("1")
+        #tts.say("Go!")
+        #count = 0
+        demand= 'Activatebf'
+        current_state = demand
+        speech = 'Start'
+        send_speech1(speech)
+        send_demand(demand)
+        memory.insertData("WordRecognized", None)
+        movement = 'None'
+        speechreco_thread = threading.Thread(target=speech_reco1)
+        speechreco_thread.daemon = True
+        speechreco_thread.start()
+# Start the threads
+        start_monitor()
+
+
+# Wait for the monitor thread to finish
+        #monitor_thread.join()
+                #monitorh()
+        if stop_flag:
+          return
+        demand= 'Deactivatebf'
+        current_state = demand
+        send_demand(demand)
+        speech = 'End'
+        send_speech1(speech)
+        time.sleep(1)
+        #counting=read_counting()
+        counting=read_counting()
+
+        tts.say("Congratulations!! You did")
+
+
+        tts.setParameter("speed", 70)  # Adjust the speed as desired, here it's set to 70%
+
+        tts.say("{} movements".format(counting))
+
+        tts.setParameter("speed", 90)
+
+
+        tts.say("in the both folding arms forward")
+
+        #tts.say("Congratulations!! You finished the both folding arms forward!")
+
+# Say the remaining part
+        #tts.say("in the both folding arms forward")
+        demand= 'Clear'
+        current_state = demand
+        send_demand(demand)
+        tts.say("Lets have a short break. I will remind you when it is over.")
+        break_time()
+        if stop_flag:
+          return
+        current_state='Illustrate'
+        tts.say("Break time is over! Now lets start the next exercise called single folding arm forward! it is quite similar to the previous one, I will illustrate it for you.")
+        #tts.say("Please remind that each exercise will")
+        #tts.setParameter("speed", 70)
+        #tts.say ("25 repetitions each arm")
+        #tts.setParameter("speed", 90)
+        #tts.say ("for this movement")
+        bloque_lk()
+
+        start_sfdemo()
+        #tts.say("Now you got it. Keep moving at your own pace! I'm counting now.")
+        count = 0
+        speech = 'Start'
+        send_speech1(speech)
+        demand= 'Activatesf'
+        current_state = demand
+        send_demand(demand)
+        start_monitor()
+        if stop_flag:
+          return
+        demand= 'Deactivatesf'
+        current_state = demand
+        send_demand(demand)
+        speech = 'End'
+        send_speech1(speech)
+        time.sleep(1)
+        #counting=read_counting()
+        counting=read_counting()
+
+        tts.say("Congratulations!! You did")
+
+
+        tts.setParameter("speed", 70)  # Adjust the speed as desired, here it's set to 70%
+
+        tts.say("{} movements".format(counting))
+
+        tts.setParameter("speed", 90)
+
+
+        tts.say("in the single folding arm forward")
+        #tts.say("Congratulations!! You finished the single folding arm forward")
+
+# Set the speech speed for the number part
+        demand= 'Clear'
+        current_state = demand
+        send_demand(demand)
+        tts.say("Lets have a short break. I will remind you when it is over.")
+
+        break_time()
+        if stop_flag:
+          return
+        current_state='Illustrate'
+        tts.say("Break time is over! Now lets start the last exercise called both arms forward! As usual, I will illustrate it for you first.")
+        bloque_baf()
+
+        start_bademo()
+        #tts.say("Now you got it. Keep moving at your own pace! I'm counting now.")
+        speech = 'Start'
+        send_speech1(speech)
+        count = 0
+        demand= 'Activateba'
+        current_state = demand
+        send_demand(demand)
+        start_monitor()
+        if stop_flag:
+          return
+        demand= 'Deactivateba'
+        current_state = demand
+        send_demand(demand)
+        speech = 'End'
+        send_speech1(speech)
+        time.sleep(1)
+        #counting=read_counting()
+        counting=read_counting()
+
+        tts.say("Congratulations!! You did")
+
+
+        tts.setParameter("speed", 70)  # Adjust the speed as desired, here it's set to 70%
+
+        tts.say("{} movements".format(counting))
+
+        tts.setParameter("speed", 90)
+
+
+        tts.say("in the both arms forward")
+        tts.say("You finished all the exercises today.")
+        #tts.say("in the both arms forward")
+        demand= 'Clear'
+        current_state = 'Final'
+        send_demand(demand)
+        tts.say("Now you can have a short break. After that, I will end this session.")
+        break_time()
+        current_state='Illustrate'
+        tts.say("It is time to say goodbye. I am glad to be your fitness coach today. Hope we can do exercises together in the future. See you!")
+    elif(fase==2) and not stop_flag:
+        tts = ALProxy("ALTextToSpeech","192.168.1.130",9559)
+        tts.say("Congratulations! You finished all your exercises today. Now lets do the the stretching. Unfortunately, I can't illustrate it for you this time due to my joint limitation. But I will play the video of illustration on the tablet in front of me.")
+        send_play_signal()
+        #send_play_signal()
+        time.sleep(23)
+        tts.say(" You can start the stretching now. I will count the time for you.")
+        count = 0
+        demand= 'Activatest'
+        send_demand(demand)
+        memory.insertData("WordRecognized", None)
+        #monitors()
+        if stop_flag:
+          return
+        tts.say("Congratulations! You finished the stretching. It is time to say goodbye. I am glad to be your fitness coach today. Hope we can do exercises together in the future. See you!")
+        demand= 'Clear'
+        send_demand(demand)
+def speech_reco():
+    #global start_time
+    global stop_flag
+    tts = ALProxy("ALTextToSpeech", "192.168.1.130", 9559)
+
+        #asr.popContexts()
+    # Set the vocabulary for speech recognition
+    #asr.setVocabulary(["pause", "continue","stop"], False)
+
+    # Subscribe to the recognized word event
+       # memory.subscribeToEvent("WordRecognized",self.getName())
+
+    flag = False
+    waiting_for_go = False
+    word = memory.getData("WordRecognized")
+    if word and word[0] == "pause" and not flag and word[1]>=0.4:
+
+        tts.say("Okay! Let's have a rest first.")
+        flag = True
+        waiting_for_go = True
+        t1 = time.time()
+        t0 = time.time()
+        last = 300
+        memory.insertData("WordRecognized", None)
+        while waiting_for_go:
+            memory.subscribeToEvent("WordRecognized","movement", "onWordRecognized")
+            word = memory.getData("WordRecognized")
+            if word and word[0] == "continue" and word[1]>=0.3:
+                waiting_for_go = False
+                tts.say("Okay, let's continue! If you feel uncomfortable or have an emergency again, do not hesitate to tell me")
+                start_time = time.time()
+                memory.insertData("WordRecognized", None)
+            #elif word and word[0] != "continue":
+                #tts.say("Sorry, I didn't understand. If you want to continue our exercises, just say continue")
+            elif t1 - t0>last:
+                tts.say("It's been too long for pausing. You can restart the session when you are ready. Goodbye!")
+                stop_flag= True
+                #asr.unsubscribe("movement")
+                break
+            t1 = time.time()
+    elif word and word[0] == "stop" and not flag and word[1]>=0.4:
+
+        tts.say("Okay, let's do exercise together next time when you are ready! If you feel uncomfortable during the exercise, please ask for medical help.")
+
+        flag = True
+        memory.insertData("WordRecognized", None)
+        #asr.unsubscribe("movement")
+        stop_flag=True
+def speech_reco1():
+    global start_time
+    global stop_flag
+    global waiting_for_go
+    global current_state
+    times = 1
+    tts = ALProxy("ALTextToSpeech", "192.168.1.130", 9559)
+
+        #asr.popContexts()
+    # Set the vocabulary for speech recognition
+    #asr.setVocabulary(["pause", "continue","stop"], False)
+
+    # Subscribe to the recognized word event
+       # memory.subscribeToEvent("WordRecognized",self.getName())
+
+    flag = False
+
+
+    while not stop_flag:
+        word = memory.getData("WordRecognized")
+        if word and word[0] == "pause" and not flag and word[1]>=0.5:
+
+            if current_state== "Activatesf" or current_state== "Activateba" or current_state== "Activatebf" or current_state=="Clear":
+                tts.say("Okay! Let's have a rest first. It may take a while for me to pause.")
+                #flag = True
+                waiting_for_go = True
+                t1 = time.time()
+                t0 = time.time()
+                demand = 'Pause'
+                send_demand(demand)
+                last = 300
+                memory.insertData("WordRecognized", None)
+                while waiting_for_go:
+                    memory.subscribeToEvent("WordRecognized","movement", "onWordRecognized")
+                    word = memory.getData("WordRecognized")
+                    if word and word[0] == "continue" and word[1]>=0.3:
+                        waiting_for_go = False
+                        tts.say("Okay, let's continue! If you feel uncomfortable or have an emergency again, do not hesitate to tell me")
+                        start_time = time.time()
+                        flag = False
+                        demand = current_state
+                        send_demand(demand)
+                        memory.insertData("WordRecognized", None)
+                    #elif word and word[0] != "continue":
+                        #tts.say("Sorry, I didn't understand. If you want to continue our exercises, just say continue")
+                    elif t1 - t0>last:
+                        tts.say("It's been too long for pausing. You can restart the session when you are ready. Goodbye!")
+                        stop_flag= True
+                        #asr.unsubscribe("movement")
+                        break
+                    t1 = time.time()
+            else:
+                if times == 1:
+                    tts.say("Sorry, I cannot pause when illustrating. You can ask me when you start doing exercise or having a break.")
+                    tts.say("By the way, if you want me to stop, I can stop at anytime.")
+                    times += 1
+                    flag = False
+                    memory.insertData("WordRecognized", None)
+        elif word and word[0] == "stop" and not flag and word[1]>=0.5:
+
+            tts.say("Okay, let's do exercise together next time when you are ready! If you feel uncomfortable during the exercise, please ask for medical help. It may take a while for me to stop. See you!")
+
+            flag = True
+            memory.insertData("WordRecognized", None)
+            #asr.unsubscribe("movement")
+            stop_flag=True
+            volume = 0.0  # Set the volume level between 0.0 and 1.0
+            tts.setVolume(volume)
+        #elif (word and word[0] != "pause") and (word and word[0] !="stop"):
+            #tts.say("Sorry,I didn't understand what you are trying to say. If you feel uncomfortable or have something urgent to do at the moment, you can tell me to pause")
+            #flag = False
+            #memory.insertData("WordRecognized", None)
+def break_time():
+    t_start = time.time()
+    t_current = time.time()
+    tim = 1
+    global stop_flag
+    global waiting_for_go
+    global current_state
+    while t_current - t_start <=30:
+        if t_current - t_start >= 5 and tim ==1:
+            tts.say("During the break time, you can drink a bit water to keep hydrated. Don't forget to stretch your arms and shoulders to relax your muscles and joints.")
+            tim += 1
+        elif t_current - t_start >= 24 and tim ==2 and current_state != "Final":
+            tts.say("Get ready! Soon we will start.")
+            tim += 1
+        elif stop_flag :
+            break
+        while waiting_for_go:
+                if stop_flag:
+                    break
+        t_current = time.time()
+def start_monitor():
+    monitor_thread = threading.Thread(target=monitorh)
+    monitor_thread.start()
+    monitor_thread.join()
+def start_bfdemo():
+    monitor_thread = threading.Thread(target=monitorbf)
+    monitor_thread.start()
+    monitor_thread.join()
+def start_sfdemo():
+    monitor_thread = threading.Thread(target=monitorsf)
+    monitor_thread.start()
+    monitor_thread.join()
+def start_bademo():
+    monitor_thread = threading.Thread(target=monitorba)
+    monitor_thread.start()
+    monitor_thread.join()
+def send_speech1(speech):
+    # Send the speech message to the Flask application
+    data = {
+        'speech': speech
+    }
+    response = requests.post(heart_rate_url, data=data)
+def send_speech(message):
+    # Perform the "Say" behavior
+      # Say the message
+
+    # Send the speech message to the Flask application
+    data = {
+        'speech': message
+    }
+    response = requests.post(heart_rate_url, data=data)
+
+    tts.say(message)
+
+    # Check the response
+    if response.status_code == 200:
+        print('Speech message sent successfully')
+    else:
+        print('Error sending speech message')
+
+message_url = 'http://192.168.1.134:5000/message'  # Replace with the URL of your message file
+movement_url = 'http://192.168.1.134:5000/movement'
+demand_url = 'http://192.168.1.134:5000/demand'
+counting_url = 'http://192.168.1.134:5000/counting'
+heart_rate_url = 'http://192.168.1.134:5000/heart_rate'
+count = 0
+tts = ALProxy("ALTextToSpeech", "192.168.1.130", 9559)
+#start_time=time.time()
+stop_flag=False
+asr = ALProxy("ALSpeechRecognition", "192.168.1.130", 9559)
+leds = ALProxy("ALLeds","192.168.1.130",9559)
+memory = ALProxy("ALMemory", "192.168.1.130", 9559)
+auto = ALProxy("ALAutonomousLife", "192.168.1.130", 9559)
+behavior = ALProxy("ALBehaviorManager", "192.168.1.130", 9559)
+memory.subscribeToEvent("WordRecognized","movement", "onWordRecognized")
+asr.subscribe("movement")
+asr.pause(True)
+asr.setVocabulary(["pause", "continue", "stop"], False)
+asr.pause(False)
+waiting_for_go = False
+wait_flag = False
+start_state = True
+counting = 0
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        # put initialization code here
+        pass
+
+    def onUnload(self):
+        # put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        volume = 0.7  # Set the volume level between 0.0 and 1.0
+        tts.setVolume(volume)
+        tts.setParameter("speed", 90)
+        global stop_flag
+
+        for x in range(2):
+            main(x)
+            x+=1
+            if stop_flag:
+              break
+        asr.unsubscribe("movement")
+        leds.off("AllLeds")
+        demand= 'Clear'
+        volume = 0.7  # Set the volume level between 0.0 and 1.0
+        tts.setVolume(volume)
+        send_demand(demand)
+        behavior.stopAllBehaviors()
+
+        auto.stopAll()
+        self.onStopped()
+
+
+    def onInput_onStop(self):
+        #asr.unsubscribe("WordRecognized")
+        self.onStopped()  # activate the output of the box]]>
+                </content>
+              </script>
+              <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+              <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+              <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+              <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+            </Box>
+            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+            <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="4" />
+          </Diagram>
+        </BehaviorKeyframe>
+      </BehaviorLayer>
+    </Timeline>
+  </Box>
+</ChoregrapheProject>
